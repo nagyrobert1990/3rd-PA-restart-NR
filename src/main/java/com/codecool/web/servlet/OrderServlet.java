@@ -44,7 +44,7 @@ public class OrderServlet extends AbstractServlet {
         } catch (SQLException ex) {
             handleSqlError(resp, ex);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            sendMessage(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
     }
 }

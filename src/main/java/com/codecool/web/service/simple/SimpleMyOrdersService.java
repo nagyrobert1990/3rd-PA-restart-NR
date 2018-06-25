@@ -26,14 +26,18 @@ public class SimpleMyOrdersService implements MyOrdersService {
     public void addNewOrder(String[] productIds, String[] quantities, String customerId) throws SQLException, ServiceException {
         productIds = productIds[0].split(",");
         quantities = quantities[0].split(",");
-        int[] productIdsInt = Arrays.stream(productIds).mapToInt(Integer::parseInt).toArray();
-        int[] quantitiesInt = Arrays.stream(quantities).mapToInt(Integer::parseInt).toArray();
 
-        int newOrderId = myOrdersDao.getNewOrderId();
-        myOrdersDao.addToOrders(newOrderId, customerId);
+        try {
+            int[] productIdsInt = Arrays.stream(productIds).mapToInt(Integer::parseInt).toArray();
+            int[] quantitiesInt = Arrays.stream(quantities).mapToInt(Integer::parseInt).toArray();
 
-        for (int i = 0; i < productIdsInt.length; i++) {
-            myOrdersDao.order(productIdsInt[i], quantitiesInt[i], newOrderId);
+            int newOrderId = myOrdersDao.getNewOrderId();
+            myOrdersDao.addToOrders(newOrderId, customerId);
+            for (int i = 0; i < productIdsInt.length; i++) {
+                myOrdersDao.order(productIdsInt[i], quantitiesInt[i], newOrderId);
+            }
+        } catch (NumberFormatException ne) {
+            throw new ServiceException("Product id or quantity is missing.");
         }
     }
 }

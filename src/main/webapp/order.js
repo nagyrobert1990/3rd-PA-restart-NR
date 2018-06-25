@@ -19,9 +19,13 @@ function onAddProductClicked() {
 }
 
 function onOrderResponse(){
-    clearMessages();
-    showContents(['orders-button-content', 'order-button-content','products-content', 'products', 'profile-content', 'logout-content']);
-    alert("Order successful!")
+    if (this.status === OK) {
+        clearMessages();
+        showContents(['orders-button-content', 'order-button-content','products-content', 'products', 'profile-content', 'logout-content']);
+        alert("Order successful!");
+    } else {
+        alert("Product id or quantity is missing.");
+    }
 }
 
 function onOrderClicked() {
