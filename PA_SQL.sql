@@ -190,7 +190,8 @@ COMMIT;
 --Insure car
 BEGIN;
 INSERT INTO sign_a_bond (user_id, car_id, company_id, service_id) VALUES
-	(3, 2, 2, 3);
+	(3, 2, 2, 3),
+	(2, 3, 2, 2);
 COMMIT;
 
 --Lengthen insurance bond
@@ -234,6 +235,9 @@ COMMIT;
 --see all insurance company, their names, and the number of insurance bonds they have issued so far.
 BEGIN;
 SELECT ins_companies.company_name AS company_name,
-	
+	COUNT(sign_a_bond.bond_id) AS number_of_issues
+	FROM sign_a_bond
+	JOIN ins_companies ON sign_a_bond.company_id = ins_companies.id
+	GROUP BY ins_companies.company_name;
 COMMIT;
 
