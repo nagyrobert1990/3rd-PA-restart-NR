@@ -31,6 +31,10 @@ public class SimpleMyOrdersService implements MyOrdersService {
             int[] productIdsInt = Arrays.stream(productIds).mapToInt(Integer::parseInt).toArray();
             int[] quantitiesInt = Arrays.stream(quantities).mapToInt(Integer::parseInt).toArray();
 
+            if (productIdsInt.length != quantitiesInt.length) {
+                throw new ServiceException("Product id or quantity is missing.");
+            }
+
             int newOrderId = myOrdersDao.getNewOrderId();
             myOrdersDao.addToOrders(newOrderId, customerId);
             for (int i = 0; i < productIdsInt.length; i++) {
